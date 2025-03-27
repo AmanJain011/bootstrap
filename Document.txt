@@ -1,3 +1,8 @@
+>> Introduction: 
+This document explains a simple Git workflow, showing how to use basic Git commands for branching, merging, and fixing conflicts. It covers creating different branches (e.g., release, dev, feature), handling urgent bug fixes with hotfix branches, and applying those fixes using cherry-pick. It also shows how to manage unfinished work with git stash, resolve conflicts with a mergetool, and keep a clean commit history using rebase
+
+>> These are the Git command steps that are followed
+
 > Fork the Bootstrap repo on GitHub -> https://github.com/twbs/bootstrap 
 > clone it to local using -> git clone https://github.com/AmanJain011/bootstrap.git
 
