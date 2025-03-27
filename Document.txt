@@ -1,0 +1,110 @@
+> Fork the Bootstrap repo on GitHub -> https://github.com/twbs/bootstrap 
+> clone it to local using -> git clone https://github.com/AmanJain011/bootstrap.git
+
+> Create two branches: release (for testing purpose) and dev (for development purpose)
+git checkout -b release      # This Branch is for Testing purpose
+git checkout -b dev          # This Branch is for development purpose (main branch is considered as production)
+
+> Push the branches to the remote repository
+git push origin release      # Push release branch to the remote
+git push origin dev          # Push dev branch to the remote
+
+> Now, I go to the dev branch and create a new feature branch for the footer improvement
+git checkout dev
+git checkout -b feature/footer-improvement  # Creating the feature/footer-improvement branch
+
+> Suppose in the middle of working on this branch, an urgent bug arises on production. 
+> I stash the footer work and switch to the main branch to resolve the bug.
+git add .                                # Stage any changes
+git stash save "footer Work in Progress"  # Stash the footer work in progress
+git stash list                           # Check the list of stashes
+git checkout main                        # Switch to the main branch to fix the urgent bug
+git checkout -b hotfix/footer-padding    # Create a hotfix branch for footer padding issue
+
+> Fix the bug and commit the changes
+git add footer_path                      # Stage the specific file with the bug fix
+git commit -m "Fixing the footer padding" # Commit the fix for footer padding
+git push origin hotfix/footer-padding    # Push the hotfix to the remote repository
+
+> Now, I merge the hotfix/footer-padding branch into the main branch and push to remote.
+git checkout main                        # Switch to the main branch
+git merge hotfix/footer-padding          # Merge the hotfix into the main branch
+git push origin main                     # Push the updated main branch to remote
+
+> I copy the commit hash ID from the hotfix (e.g., c56fcfe07) for later use to apply it on the dev branch
+git log --oneline                        # Get the commit hash ID for the hotfix (e.g., c56fcfe07)
+
+> Merge the hotfix/footer-padding branch into the release branch, as it also has the same bug.
+git checkout release                     # Switch to the release branch
+git merge hotfix/footer-padding          # Merge the hotfix into the release branch
+git push origin release                  # Push the release branch to the remote
+
+> Now, I cherry-pick the hotfix commit to the dev branch to apply the same bug fix on it.
+git checkout dev                         # Switch to the dev branch
+git cherry-pick c56fcfe07                # Apply the hotfix commit from main to the dev branch
+git push origin dev                      # Push the updated dev branch to remote
+
+> Switch back to the feature/footer-improvement branch, pop the stash, and complete the feature.
+git checkout feature/footer-improvement   # Switch to the feature/footer-improvement branch
+git stash list                            # List all stashed changes
+git stash pop                             # Pop the stashed changes
+git add .                                 # Stage the completed changes
+git commit -m "footer-improvement is Added"  # Commit the feature changes
+git push origin feature/footer-improvement  # Push the feature branch to the remote
+
+> Now, I merge the feature/footer-improvement branch into the dev branch. 
+> This may lead to a conflict because both the hotfix and feature changes are in the same file.
+git checkout dev                          # Switch to the dev branch
+git merge feature/footer-improvement      # Merge the feature branch into the dev branch
+git status                                # Check if there are any merge conflicts
+
+> Resolve the conflict using a mergetool (kdiff3 in this case)
+git mergetool                             # Open the merge tool to resolve conflicts
+git add .                                 # Stage the resolved files
+git commit -m "Resolved conflict in Footer"  # Commit the resolved conflicts
+git push origin dev                       # Push the dev branch to the remote
+
+> Now I merge the dev branch into release for testing purposes.
+git checkout release                      # Switch to the release branch
+git merge dev                              # Merge the dev branch into the release branch
+git push origin release                    # Push the updated release branch to remote
+
+> After successful testing, I rebase the release branch onto the main branch for a cleaner history.
+git checkout release                      # Switch to the release branch
+git rebase main                           # Rebase release on top of main for a cleaner history
+
+> Finally, I merge the release branch into the main branch for production deployment.
+git checkout main                         # Switch to the main branch
+git merge release                         # Merge the release branch into main
+git push origin main                      # Push the updated main branch to remote
+
+> After Review by Nupur Khatri, She asked me again to implement the Rebase and Cherry-pick commands 
+
+> I create a new feature branch for the login feature from the main branch.
+git branch feature/login                  # Create feature/login branch from main
+git checkout feature/login                # Switch to the feature/login branch
+
+> Implement changes for login form UI and commit
+git add .                                 # Stage the changes
+git commit -m "add login form UI"          # Commit the UI changes for the login form
+
+> Commit additional changes for the login button styling
+git add .                                 # Stage the changes
+git commit -m "Fix login button styling"   # Commit the styling changes for the login button
+git push origin feature/login             # Push the login feature branch to remote
+
+> Suppose there is a bug in the footer margin. 
+> I create a hotfix branch from main to fix this issue.
+git branch hotfix/footer-margin           # Create hotfix/footer-margin branch from main
+git checkout hotfix/footer-margin         # Switch to the hotfix branch
+git add .                                 # Stage the changes to fix the footer margin
+git commit -m "Fix the footer margin"     # Commit the bug fix
+
+> Now, I switch back to the feature/login branch and cherry-pick the hotfix commit.
+git checkout feature/login                # Switch to the feature/login branch
+git cherry-pick hash-id-of-hotfix         # Apply the hotfix commit to the login feature branch
+
+> Rebase the feature/login branch with the main branch to ensure it is up to date.
+git rebase main                           # Rebase feature/login branch on top of the main branch
+
+> From main i created a document branch and add this document to that branch and raise the PR for that document branch
